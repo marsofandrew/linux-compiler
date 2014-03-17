@@ -16,3 +16,7 @@
 *.exe
 *.out
 *.app
+
+# PL1 assembler and object files
+*.ass
+*.tex
