@@ -1448,6 +1448,133 @@ int LIT2 ()
   return 0;
  }
 
+int LOP2 () {
+    return 0;
+}
+
+/*done*/
+int LVI2 () {
+    char i;
+    FORM ();                /*форматируем правую часть*/
+                            /*арифметического ПЛ1-опе-*/
+                            /*ратора присваивания     */
+  
+    if ( IFORMT == 1 )                                  /* если правая часть одно-*/
+    {                                                   /* термовая, то:          */
+      for ( i = 0; i < ISYM; i++ )                      /* ищем этот терм в табли-*/
+       {                                                /* це имен  и             */
+        if ( !strcmp (SYM[i].NAME, FORMT[0])  &&    /* если находим, то:      */
+         strlen (SYM[i].NAME) == strlen (FORMT[0]))
+         {
+        if ( SYM [i].TYPE == 'T' )              /* в случае типа=bit*/
+         {
+  
+          if (strcmp (SYM[i].RAZR, "16") <= 0) {    /* и разрядности <= 2 byte    */
+                           
+            memcpy (ASS_CARD._BUFCARD.OPERAC, "LH", 2);  /* формируем код ассембле-*/
+                                                         /* ровской операции LH,   */
+          } else {
+            memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );  /* а при разрядности > 2 byte  */
+                                                          /* формируем код ассембле-*/
+                                                          /* ровской операции L     */
+          }
+  
+          strcpy ( ASS_CARD._BUFCARD.OPERAND,   /*       формируем        */
+                      "R1," );/*       первый  и        */
+          strcat ( ASS_CARD._BUFCARD.OPERAND,   /* второй операнды ассемб-*/
+                         FORMT [0]);/* леровской операции     */
+  
+          ASS_CARD._BUFCARD.OPERAND [ strlen    /* вставляем разделитель  */
+           ( ASS_CARD._BUFCARD.OPERAND ) ] = ' ';
+  
+          memcpy ( ASS_CARD._BUFCARD.COMM,      /* и построчный коментарий*/
+           "3arpy3ka nepeMeHHou' B perucTp", 30 );
+  
+          ZKARD ();                             /* запомнить операцию ас- */
+                            /* семблера  и            */
+          return 0;                             /* завершить программу    */
+         }
+        else
+         return 3;                              /* если тип терма не bit,  */
+                                                /* то выход по ошибке*/
+         }
+       }
+      return 4;                                     /* если терм-идентификатор*/
+                                                    /* неопределен, то выход  */
+                                                    /* по ошибке              */
+     }
+    else                                            /* если правая часть ариф-*/
+                                                    /* метического выражения  */
+                                                    /* двухтермовая, то:      */
+     {
+      for ( i = 0; i < ISYM; i++ )                  /* если правый терм ариф- */
+       {                                            /* метического выражения  */
+        if ( !strcmp (SYM[i].NAME,                 /*определен в табл.SYM,то:*/
+                  FORMT[IFORMT-1])  &&
+         strlen (SYM[i].NAME) ==
+                 strlen ( FORMT [IFORMT-1] )
+       )
+         {
+        if ( SYM [i].TYPE == 'T' )              /* если тип правого опе-  */
+         {                                      /* ранда bit, то:   */
+            /*Write FORMT[IFORM-1] to R2*/
+            if (strcmp (SYM[i].RAZR, "16") <= 0) {    /* и разрядности <= 2 byte    */
+              memcpy (ASS_CARD._BUFCARD.OPERAC, "LH", 2);  /* формируем код ассембле-*/
+                                                           /* ровской операции LH,   */
+            } else {
+              memcpy ( ASS_CARD._BUFCARD.OPERAC, "L", 1 );  /* а при разрядности > 2 byte  */
+                                                            /* формируем код ассембле-*/
+                                                            /* ровской операции L     */
+            }
+            strcpy ( ASS_CARD._BUFCARD.OPERAND, "R2," );
+            strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT [IFORMT-1]);
+            ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
+            memcpy ( ASS_CARD._BUFCARD.COMM, "3arpy3ka nepeMeHHou' B perucTp", 30 );
+            ZKARD ();
+            
+          if ( STROKA [ DST [I2].DST4 -         /* если знак опер."!",то: */
+           strlen( FORMT [IFORMT-1] ) ] == '!' )
+           {
+             memcpy (ASS_CARD._BUFCARD.OPERAC, "OR", 2);
+           } else {
+            if ( STROKA [DST[I2].DST4 - strlen (FORMT[IFORMT-1]) ] == '&' ) {
+                memcpy(ASS_CARD._BUFCARD.OPERAC, "NR", 2);
+             } else {
+                return 5;
+             }
+           }
+                            /* формируем:             */
+          strcpy ( ASS_CARD._BUFCARD.OPERAND,   /* - первый операнд ассем-*/
+                      "R1," );/*блеровской операции;    */
+          strcat ( ASS_CARD._BUFCARD.OPERAND,   /* - второй операнд ассем-*/
+          "R2" );/*блеровской операции;    */
+          ASS_CARD._BUFCARD.OPERAND [ strlen
+            ( ASS_CARD._BUFCARD.OPERAND )] =/* - разделяющий пробел;  */
+                            ' ';
+          memcpy ( ASS_CARD._BUFCARD.COMM,
+         "qpopMupoBaHue npoMe}l{yTo4Horo 3Ha4eHu9", 39 );
+          ZKARD ();                             /* запоминание ассембле-  */
+                            /* ровской операции       */
+  
+          return 0;                             /* успешное завершение    */
+                            /* пограммы               */
+         }
+        else
+         return 3;                              /* если тип правого опе-  */
+                            /* ранда арифметического  */
+                            /* выражения не bit,*/
+                            /* то завершение програм- */
+                            /* мы по ошибке           */
+         }
+       }
+      return 4;                                     /* если правый операнд    */
+                            /* арифметического выраже-*/
+                            /*ния не определен в табл.*/
+                            /* SYM, то завершить про- */
+                            /* грамму по ошибке       */
+     }
+}
+
 /*..........................................................................*/
 
 						  /* п р о г р а м м а      */
@@ -1549,7 +1676,33 @@ int OEN2 ()
 
 	ZKARD ();                                 /* запомнить операцию     */
 						  /*    Ассемблера          */
-       }
+      } else if (SYM[i].TYPE == 'T') {
+          if (i == 1) {
+              memcpy ( ASS_CARD._BUFCARD.OPERAC, "DS", 2 );
+              strcpy (ASS_CARD._BUFCARD.OPERAND, "0H");
+              ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
+              memcpy (ASS_CARD._BUFCARD.COMM, "BblpaBHuBaHue Ha 2 6au'Ta", 25);
+              ZKARD ();
+          }
+          strcpy (ASS_CARD._BUFCARD.METKA, SYM[i].NAME);
+          ASS_CARD._BUFCARD.METKA [strlen (ASS_CARD._BUFCARD.METKA)] = ' ';
+          if (strcmp (SYM[i].INIT,"'0'B")) {
+            memcpy (ASS_CARD._BUFCARD.OPERAC, "DC", 2);
+            strcpy (ASS_CARD._BUFCARD.OPERAND, "BL2");
+            strncpy (RAB, SYM[i].INIT, strlen (SYM[i].INIT) - 1);
+            RAB[strlen (SYM[i].INIT)-1] = '\0';
+            strcat (ASS_CARD._BUFCARD.OPERAND, RAB);
+            ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
+            memcpy (ASS_CARD._BUFCARD.COMM, "onpegeJIeHue nepeMeHHou'", 24);
+            ZKARD ();
+          } else {
+              memcpy ( ASS_CARD._BUFCARD.OPERAC, "DS", 2 );
+              strcpy (ASS_CARD._BUFCARD.OPERAND, "BL2");
+              ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
+              memcpy (ASS_CARD._BUFCARD.COMM, "onpegeJIeHue nepeMeHHou'", 24);
+              ZKARD ();
+          }
+      }
      }
    }
 						  /* далее идет блок декла- */
@@ -1648,7 +1801,15 @@ int OPA2 ()
 	    ZKARD ();                             /* запомнить операцию     */
 						  /* Ассемблера  и          */
 	    return 0;                             /* завершить программу    */
-	   }
+      } else if (SYM[i].TYPE == 'T') {
+          memcpy ( ASS_CARD._BUFCARD.OPERAC, "STH", 3);
+          strcpy ( ASS_CARD._BUFCARD.OPERAND, "R1,");
+          strcat ( ASS_CARD._BUFCARD.OPERAND, FORMT[0]) ;
+          ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
+          memcpy ( ASS_CARD._BUFCARD.COMM, "qpopMupoBaHue 3Ha4eHu9 apuqpM Bblpa}l{eHu9", 42 );
+          ZKARD ();
+          return 0;
+      }
 
 	  else                                    /* если идентификатор не  */
 						  /* имеет тип bin fixed,то:*/
