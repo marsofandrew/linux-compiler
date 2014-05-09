@@ -1255,7 +1255,7 @@ int AVI2 ()
 						  /* ровской операции L     */
 
 	    strcpy ( ASS_CARD._BUFCARD.OPERAND,   /*       формируем        */
-					"RRAB," );/*       первый  и        */
+					"R1," );/*       первый  и        */
 	    strcat ( ASS_CARD._BUFCARD.OPERAND,   /* второй операнды ассемб-*/
 				       FORMT [0]);/* леровской операции     */
 
@@ -1332,7 +1332,7 @@ int AVI2 ()
 	     }
 						  /* формируем:             */
 	    strcpy ( ASS_CARD._BUFCARD.OPERAND,   /* - первый операнд ассем-*/
-					"RRAB," );/*блеровской операции;    */
+					"R1," );/*блеровской операции;    */
 	    strcat ( ASS_CARD._BUFCARD.OPERAND,   /* - второй операнд ассем-*/
 			       FORMT [IFORMT-1] );/*блеровской операции;    */
 	    ASS_CARD._BUFCARD.OPERAND [ strlen
@@ -1561,14 +1561,21 @@ int OEN2 ()
 
   memcpy ( ASS_CARD._BUFCARD.METKA, "RBASE", 5 ); /* формирование EQU-псев- */
   memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
-  memcpy ( ASS_CARD._BUFCARD.OPERAND, "15", 2 );  /* номера базового регист-*/
+  memcpy ( ASS_CARD._BUFCARD.OPERAND, "2", 1 );  /* номера базового регист-*/
 						  /* ра общего назначения   */
 						  /*           и            */
   ZKARD ();                                       /* запоминание ее         */
 
-  memcpy ( ASS_CARD._BUFCARD.METKA, "RRAB", 4 );  /* формирование EQU-псев- */
+  memcpy ( ASS_CARD._BUFCARD.METKA, "R1", 2 );  /* формирование EQU-псев- */
   memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
-  memcpy ( ASS_CARD._BUFCARD.OPERAND, "5", 1 );   /* номера базового регист-*/
+  memcpy ( ASS_CARD._BUFCARD.OPERAND, "3", 1 );   /* номера базового регист-*/
+						  /* ра общего назначения   */
+						  /*            и           */
+  ZKARD ();                                       /* запоминание ее         */
+  
+  memcpy ( ASS_CARD._BUFCARD.METKA, "R2", 2 );  /* формирование EQU-псев- */
+  memcpy ( ASS_CARD._BUFCARD.OPERAC, "EQU",3 );   /* дооперации определения */
+  memcpy ( ASS_CARD._BUFCARD.OPERAND, "4", 1 );   /* номера базового регист-*/
 						  /* ра общего назначения   */
 						  /*            и           */
   ZKARD ();                                       /* запоминание ее         */
@@ -1627,7 +1634,7 @@ int OPA2 ()
 					"ST", 2 );
 
 	    strcpy ( ASS_CARD._BUFCARD.OPERAND,   /*       доформировать    */
-					"RRAB," );/*          операнды      */
+					"R1," );/*          операнды      */
 
 	    strcat ( ASS_CARD._BUFCARD.OPERAND,   /*           команды      */
 				      FORMT [0]) ;
