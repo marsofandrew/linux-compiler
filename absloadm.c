@@ -155,7 +155,7 @@ int P_BCR(void)
     {
       if (R2 != 0)
       {
-        waddstr(wcyan, "Moving to address = 0 or exiting after button press");
+        waddstr(wcyan, "nepexog no agpecy = 0 uJIu 3aBepwenue TpaccupoBku nporpaMMbl nocJIe Ha}l{aTu9 KJIaBuwu");
 	wrefresh(wcyan);
 	ret = 1;
       }
@@ -379,7 +379,7 @@ int sys(void)
 //нижнее поле     
   wmargenta = newwin(1, 80, 24, 0);
   wbkgd(wmargenta, COLOR_PAIR(COLOR_MAGENTA));
-  waddstr(wmargenta, "\"PgUp\",\"PgDn\",\"Up\",\"Down\"->DUMP VIEW; \"Enter\"->EXECUTE NEXT CMD");
+  waddstr(wmargenta, "\"PgUp\",\"PgDn\",\"Up\",\"Down\"->npocMoTp gamna; \"Enter\"->BblnoJIHuTb o4epegHyl0 KomaHgy ");
       
 //строка состояния
   wcyan = newwin(1, 80, 23, 0);
@@ -472,7 +472,7 @@ l0:
   wclear(wblue);			//очистка окна регистров
   wind();   
       
-  waddstr(wcyan, "emulator is ready to execute command with address: ");
+  waddstr(wcyan, "roToBHocTb K BbInoJIHeHul0 o4epegHou KomaHgbl c agpecoM ");
   wprintw(wcyan, "%.06lX", I - T_MOP[k].DLOP);
   waddstr(wcyan, "\n");    				
   wrefresh(wcyan);
@@ -526,7 +526,7 @@ WAIT:
 goto WAIT;
 
 SKIP:
-
+ printf ("code: %x\n", T_MOP[k].CODOP);
    switch (T_MOP[k].CODOP)                        //согласно  коду команды, 
    {                                              //селектируемой сч.адреса 
 						  //выбрать подпрогр.интер- 
@@ -597,7 +597,7 @@ int main( int argc, char **argv )                /* п р о г р а м м а  
 
   if ( argc != 2 )
   {
-    printf ( "%s\n", "Error in command line" );
+    printf ( "%s\n", "Ошибка в командной строке" );
     return -1;
   }
  
@@ -658,7 +658,7 @@ CONT1:
        
 CONT2:
 
-  POINT.P_OBLZ = OBLZ;                            /*расчитать абсолютный    */
+  POINT.P_OBLZ = OBLZ;                           /*расчитать абсолютный    */
   J = POINT.VAL_P.SEGM ;                          /*адрес области загрузки  */
   J = J << 4;                                     /*OBLZ в переменной J     */
   J += POINT.VAL_P.SMESH;
