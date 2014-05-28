@@ -10,8 +10,8 @@
 #define  NSPIS  5                                 /*разм.списка загр.прогр. */
 #define  NOBJ   50                                /*разм.масс.об'ектных карт*/
 #define  DOBLZ  1024                              /*длина области загрузки  */
-#define  NOP 6                                    /*кол-во обрабатываемых   */
-						  /* команд                 */
+#define  NOP 10                                    /*кол-во обрабатываемых   */
+                                                  /* команд                 */
 
 
 char NFIL [30] = "\x0";
@@ -127,6 +127,10 @@ int BAS_IND;                                      /*индекс масс.обл
 {{'L' , ' ' , ' ' , ' ' , ' '} , '\x58', 4 , FRX}, /*машинных                */
 {{'A' , ' ' , ' ' , ' ' , ' '} , '\x5A', 4 , FRX}, /*операций                */
 {{'S' , ' ' , ' ' , ' ' , ' '} , '\x5B', 4 , FRX}, /*                        */
+{{'L' , 'H' , ' ' , ' ' , ' '} , '\x48', 4 , FRX},
+{{'O' , 'R' , ' ' , ' ' , ' '} , '\x16', 2 , FRR},
+{{'N' , 'R' , ' ' , ' ' , ' '} , '\x14', 2 , FRR},
+{{'S' , 'T' , 'H' , ' ' , ' '} , '\x40', 4 , FRX}, 
     };
 //..........................................................................
 //п р о г р а м м а реализации семантики команды BALR
@@ -246,6 +250,49 @@ int P_S()                                         /* п р о г р а м м а 
   return 0;                                       /*успешное заверш.прогр.  */
  }
 
+int P_LH () {
+    int sm;
+ 
+    ADDR = VR[B] + VR[X] + D;
+    sm = (int) ( ADDR - I );
+    VR[R1] =
+     OBLZ[BAS_IND + CUR_IND + sm] * 0x100 + 
+     OBLZ[BAS_IND + CUR_IND + sm+1];
+    return 0;
+}
+
+int P_STH () {
+    int sm,i;                                       
+    char bytes[2];                                  
+  
+    ADDR = VR[B] + VR[X] + D;                       
+    sm = (int) (ADDR -I);                           
+  
+    bytes[0] = ((VR[R1] % 0x10000L) -
+          ((VR[R1]%0x10000L)%0x100))/0x100;
+    bytes[1] = (VR[R1] % 0x10000L) % 0x100;
+  
+    for (i=0; i<2; i++)                             
+     OBLZ[BAS_IND + CUR_IND + sm + i] = bytes[i];   
+    
+    return 0;
+}
+
+int P_OR () {
+    unsigned short r1 = (unsigned short)VR[R1];
+    unsigned short r2 = (unsigned short)VR[R2];
+    r1 = r1 | r2;
+    VR[R1] = r1;
+    return 0;    
+}
+
+int P_NR () {
+    unsigned short r1 = (unsigned short)VR[R1];
+    unsigned short r2 = (unsigned short)VR[R2];
+    r1 = r1 & r2;
+    VR[R1] = r1;
+    return 0;
+}
 
 //..........................................................................
 int FRR(void)
@@ -306,7 +353,7 @@ int FRX(void)
       
       ADDR = VR[B] + VR[X] + D;
       wprintw(wgreen,"        %.06lX       \n", ADDR);
-      if (ADDR % 4 != 0)
+      if (ADDR % 2 != 0)
         return (7);
       break;
     }
@@ -545,6 +592,16 @@ SKIP:
     case '\x5A' : P_A();
 		   break;
     case '\x5B' : P_S();
+   
+       //!!add!!!    
+    case '\x40' : P_STH();
+           break;
+    case '\x48' : P_LH();
+           break;
+    case '\x16' : P_OR();
+           break;    
+    case '\x14' : P_NR();
+           break;  
    }
    
    goto BEGIN;	
@@ -636,7 +693,7 @@ CONT1:
 
   for ( I = 0; I < ISPIS; I++ )                   /*перебирая все собираемые*/
    {      
-                                      /*об'ектные файлы,        */
+     printf("trying to open file:%sAAAA", SPISOK[I]);                                  /*об'ектные файлы,        */
     if ((fp = fopen(SPISOK[I], "rb" )) ==  NULL)                                          
       goto ERR3;                                   /*                        */
     else                                          /* иначе:                 */

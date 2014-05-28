@@ -523,11 +523,11 @@ int SDC()                                         /*подпр.обр.пс.оп�
       ushort tmp_val = 0;
       for (i = 0; i < 16; i++) {
           if (tmp_str[i] == '1') {
-            tmp_val |= (0x01 << i);
+            tmp_val |= (0x80 >> i);
           }
       }
-      RR.OP_RR.OP = 0;
-      RR.OP_RR.R1R2 = tmp_val;
+      RR.OP_RR.OP = tmp_val;
+      RR.OP_RR.R1R2 = 0;//tmp_val;
       STXT(2);
       return 0;
   } else                                            /*иначе                   */

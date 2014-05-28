@@ -15,9 +15,10 @@ if [ "$1" = "make" -o "$1" = "all" ]; then
 fi
 if [ "$1" = "run" -o "$1" = "all" ]; then
   echo 'Compiling .pli file'
-  ./komppl.exe  examppl.pli
+  ./komppl.exe  task2.pli
   echo 'Building object file'
-  ./kompassr.exe examppl.ass
+  ./kompassr.exe task2.ass
+  cp task2.tex examppl.tex
   echo 'Running debugger'
   ./absloadm.exe spis.mod
 fi
