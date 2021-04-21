@@ -590,60 +590,62 @@ char TPR[NVXOD][NNETRM] =
 
 /*..........................................................................*/
 
-void compress_ISXTXT() {   /* Программа уплотнения   */
+void compress_ISXTXT () {   /* Программа уплотнения   */
   /* исходного текста путем */
   /* удаления "лишних"      */
   /* пробелов, выполняющая  */
   /* роль примитивного лек- */
   /* сического анализатора  */
   I3 = 0;
-  for (I1 = 0; I1 <= NISXTXT; I1++) {
-    for (I2 = 0; I2 < 80; I2++) {
+  for ( I1 = 0 ; I1 <= NISXTXT ; I1++ ) {
+    for ( I2 = 0 ; I2 < 80 ; I2++ )
       if (ISXTXT[I1][I2] != '\x0') {
         if ((ISXTXT[I1][I2] == ' ') &&
             ((PREDSYM == ' ') || (PREDSYM == ';') ||
              (PREDSYM == ')') || (PREDSYM == ':') ||
-             (PREDSYM == '('))) {
+             (PREDSYM == '(')))
+        {
           PREDSYM = ISXTXT[I1][I2];
-          continue;
+          goto L2;
         }
 
-        if ((ISXTXT[I1][I2] == '+' ||
-             ISXTXT[I1][I2] == '-' ||
-             ISXTXT[I1][I2] == '=' ||
-             ISXTXT[I1][I2] == '(' ||
-             ISXTXT[I1][I2] == ')' ||
-             ISXTXT[I1][I2] == '*' ||
-             ISXTXT[I1][I2] == '!' ||
-             ISXTXT[I1][I2] == '&') && PREDSYM == ' ') {
-          I3--;
+        if ((ISXTXT [ I1 ][ I2 ] == '+' ||
+             ISXTXT [ I1 ][ I2 ] == '-' ||
+             ISXTXT [ I1 ][ I2 ] == '=' ||
+             ISXTXT [ I1 ][ I2 ] == '(' ||
+             ISXTXT [ I1 ][ I2 ] == ')' ||
+             ISXTXT [ I1 ][ I2 ] == '*' ||
+             ISXTXT [ I1 ][ I2 ] == '!' ||
+             ISXTXT [ I1 ][ I2 ] == '&') && PREDSYM == ' ')
+        {
+          I3-- ;
           goto L1;
         }
 
 
-        if (ISXTXT[I1][I2] == ' ' &&
+        if (ISXTXT [ I1 ][ I2 ] == ' ' &&
             (PREDSYM == '+' ||
              PREDSYM == '-' ||
              PREDSYM == '=' ||
              PREDSYM == '*' ||
              PREDSYM == '!' ||
-             PREDSYM == '&')) {
-          continue;
+             PREDSYM == '&'))
+        {
+          goto L2;
         }
 
         L1:
-        PREDSYM = ISXTXT[I1][I2];
-        STROKA[I3] = PREDSYM;
-        I3++;
+        PREDSYM = ISXTXT [ I1 ][ I2 ];
+        STROKA [ I3 ] = PREDSYM;
+        I3++ ;
 
         L2:
         continue;
       } else {
         break;
       }
-    }
   }
-  STROKA[I3] = '\x0';
+  STROKA [I3] = '\x0';
 }
 
 /*..........................................................................*/
