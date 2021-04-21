@@ -603,7 +603,7 @@ void compress_ISXTXT () {   /* Программа уплотнения   */
   /* сического анализатора  */
   I3 = 0;
   for ( I1 = 0 ; I1 <= NISXTXT ; I1++ ) {
-    for ( I2 = 0 ; I2 < 80 ; I2++ )
+    for ( I2 = 0 ; I2 < 80 ; I2++ ){
       if (ISXTXT[I1][I2] != '\x0') {
         if ((ISXTXT[I1][I2] == ' ') &&
             ((PREDSYM == ' ') || (PREDSYM == ';') ||
@@ -611,8 +611,19 @@ void compress_ISXTXT () {   /* Программа уплотнения   */
              (PREDSYM == '(')))
         {
           PREDSYM = ISXTXT[I1][I2];
-          goto L2;
+          continue;
         }
+        if (ISXTXT [ I1 ][ I2 ] == ' ' &&
+            (PREDSYM == '+' ||
+             PREDSYM == '-' ||
+             PREDSYM == '=' ||
+             PREDSYM == '*' ||
+             PREDSYM == '!' ||
+             PREDSYM == '&'))
+        {
+          continue;
+        }
+
 
         if ((ISXTXT [ I1 ][ I2 ] == '+' ||
              ISXTXT [ I1 ][ I2 ] == '-' ||
@@ -624,31 +635,18 @@ void compress_ISXTXT () {   /* Программа уплотнения   */
              ISXTXT [ I1 ][ I2 ] == '&') && PREDSYM == ' ')
         {
           I3-- ;
-          goto L1;
-        }
-
-
-        if (ISXTXT [ I1 ][ I2 ] == ' ' &&
-            (PREDSYM == '+' ||
-             PREDSYM == '-' ||
-             PREDSYM == '=' ||
-             PREDSYM == '*' ||
-             PREDSYM == '!' ||
-             PREDSYM == '&'))
-        {
-          goto L2;
-        }
-
-        L1:
-        PREDSYM = ISXTXT [ I1 ][ I2 ];
+	goto L2;
+               }
+	L2: 
+	PREDSYM = ISXTXT [ I1 ][ I2 ];
         STROKA [ I3 ] = PREDSYM;
         I3++ ;
 
-        L2:
-        continue;
-      } else {
+
+           } else {
         break;
       }
+    }
   }
   STROKA [I3] = '\x0';
 }
@@ -2150,7 +2148,7 @@ int main (int argc, char **argv )
 
   compress_ISXTXT ();                             /* лексический анализ     */
   /* исходного текста       */
-
+  printf(STROKA);
   build_TPR ();                                   /* построение матрицы     */
   /* преемников             */
 
