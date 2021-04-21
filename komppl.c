@@ -608,7 +608,7 @@ void compress_ISXTXT () {   /* Программа уплотнения   */
                 if ((ISXTXT[I1][I2] == ' ') && 
                     ((PREDSYM == ' ') || (PREDSYM == ';') || 
                     (PREDSYM == ')') || (PREDSYM == ':') || 
-                    (PREDSYM == '('))) 
+                    (PREDSYM == '(') || (PREDSYM == '\n')))
                 {
                     PREDSYM = ISXTXT[I1][I2];
                     goto L2;
