@@ -1728,13 +1728,11 @@ int OEN2 ()
         ZKARD ();                                 /* запомнить операцию     */
         /*    Ассемблера          */
       } else if (SYM[i].TYPE == 'T') {
-        if (i == 1) {
           memcpy ( ASS_CARD._BUFCARD.OPERAC, "DS", 2 );
           strcpy (ASS_CARD._BUFCARD.OPERAND, "0H");
           ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
           memcpy (ASS_CARD._BUFCARD.COMM, "BblpaBHuBaHue Ha 2 6au'Ta", 25);
           ZKARD ();
-        }
         strcpy (ASS_CARD._BUFCARD.METKA, SYM[i].NAME);
         ASS_CARD._BUFCARD.METKA [strlen (ASS_CARD._BUFCARD.METKA)] = ' ';
         if (strcmp (SYM[i].INIT,"'0'B")) {
@@ -1744,13 +1742,33 @@ int OEN2 ()
           RAB[strlen (SYM[i].INIT)-1] = '\0';
           strcat (ASS_CARD._BUFCARD.OPERAND, RAB);
           ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
-          memcpy (ASS_CARD._BUFCARD.COMM, "onpegeJIeHue nepeMeHHou'", 24);
+          memcpy (ASS_CARD._BUFCARD.COMM, "Define var", 10);
           ZKARD ();
+	  
+	  memcpy(ASS_CARD._BUFCARD.OPERAC, "DC", 2);
+	  strcpy(ASS_CARD._BUFCARD.OPERAND, "H'");
+	  strcat(ASS_CARD._BUFCARD.OPERAND, SYM[i].RAZR);
+	  strcat(ASS_CARD._BUFCARD.OPERAND, "'");
+	  ASS_CARD._BUFCARD.OPERAND [strlen(ASS_CARD._BUFCARD.OPERAND)] = ' ';
+	  memcpy (ASS_CARD._BUFCARD.COMM, "Capacity", 8);
+	  ZKARD(); 
+	  
+          memcpy(ASS_CARD._BUFCARD.OPERAC, "DC", 2);
+	  strcpy(ASS_CARD._BUFCARD.OPERAND, "H'");
+	  char str_size[3];
+	  printf("%d", strlen(SYM[i].INIT) - 3);
+	  snprintf(str_size, 3, "%d", strlen(SYM[i].INIT) - 3);
+          strcat(ASS_CARD._BUFCARD.OPERAND, str_size);
+	  strcat(ASS_CARD._BUFCARD.OPERAND, "'");
+  	  ASS_CARD._BUFCARD.OPERAND[strlen(ASS_CARD._BUFCARD.OPERAND)] = ' ';
+	  memcpy(ASS_CARD._BUFCARD.COMM, "Size", 4);
+	  ZKARD();
+	  
         } else {
           memcpy ( ASS_CARD._BUFCARD.OPERAC, "DS", 2 );
           strcpy (ASS_CARD._BUFCARD.OPERAND, "BL2");
           ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
-          memcpy (ASS_CARD._BUFCARD.COMM, "onpegeJIeHue nepeMeHHou'", 24);
+          memcpy (ASS_CARD._BUFCARD.COMM, "Define var", 10);
           ZKARD ();
         }
       }
@@ -1784,6 +1802,7 @@ int OEN2 ()
   /*            и           */
   ZKARD ();                                       /* запоминание ее         */
 
+  //Probably remove
   memcpy ( ASS_CARD._BUFCARD.OPERAC, "END", 3 );  /* формирование кода ас-  */
   /* семблеровской псевдо-  */
   /* операции END,          */
