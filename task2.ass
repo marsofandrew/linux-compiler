@@ -10,13 +10,10 @@ STH   @RRAB,D      qpopMupoBaHue 3Ha4eHu9 apuqpM Bblpa}l{eHu9
 BCR   15,14        Bblxog u3 nporpaMMbl
 DS    0H           BblpaBHuBaHue Ha 2 6au'Ta
 A        DC    BL2'101'     Define var
-DC    H'3'         Size
 DS    0H           BblpaBHuBaHue Ha 2 6au'Ta
 B        DC    BL2'1010'    Define var
-DC    H'4'         Size
 DS    0H           BblpaBHuBaHue Ha 2 6au'Ta
 C        DC    BL2'111'     Define var
-DC    H'3'         Size
 DS    0H           BblpaBHuBaHue Ha 2 6au'Ta
 D        DS    BL2          Define var
 @RBASE   EQU   2

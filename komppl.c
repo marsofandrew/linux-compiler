@@ -1744,24 +1744,16 @@ int OEN2 ()
           ASS_CARD._BUFCARD.OPERAND [strlen (ASS_CARD._BUFCARD.OPERAND)] = ' ';
           memcpy (ASS_CARD._BUFCARD.COMM, "Define var", 10);
           ZKARD ();
-	  
+
 //          memcpy(ASS_CARD._BUFCARD.OPERAC, "DC", 2);
 //          strcpy(ASS_CARD._BUFCARD.OPERAND, "H'");
-//          strcat(ASS_CARD._BUFCARD.OPERAND, SYM[i].RAZR);
+//          char str_size[3];
+//          snprintf(str_size, 3, "%d", strlen(SYM[i].INIT) - 3);
+//          strcat(ASS_CARD._BUFCARD.OPERAND, str_size);
 //          strcat(ASS_CARD._BUFCARD.OPERAND, "'");
-//          ASS_CARD._BUFCARD.OPERAND [strlen(ASS_CARD._BUFCARD.OPERAND)] = ' ';
-//          memcpy (ASS_CARD._BUFCARD.COMM, "Capacity", 8);
+//          ASS_CARD._BUFCARD.OPERAND[strlen(ASS_CARD._BUFCARD.OPERAND)] = ' ';
+//          memcpy(ASS_CARD._BUFCARD.COMM, "Size", 4);
 //          ZKARD();
-
-          memcpy(ASS_CARD._BUFCARD.OPERAC, "DC", 2);
-          strcpy(ASS_CARD._BUFCARD.OPERAND, "H'");
-          char str_size[3];
-          snprintf(str_size, 3, "%d", strlen(SYM[i].INIT) - 3);
-          strcat(ASS_CARD._BUFCARD.OPERAND, str_size);
-          strcat(ASS_CARD._BUFCARD.OPERAND, "'");
-          ASS_CARD._BUFCARD.OPERAND[strlen(ASS_CARD._BUFCARD.OPERAND)] = ' ';
-          memcpy(ASS_CARD._BUFCARD.COMM, "Size", 4);
-          ZKARD();
 	  
         } else {
           memcpy ( ASS_CARD._BUFCARD.OPERAC, "DS", 2 );
